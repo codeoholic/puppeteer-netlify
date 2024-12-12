@@ -4,11 +4,14 @@ const puppeteer = require("puppeteer-core");
 exports.handler = async (event, context) => {
 
     let browser = null;
+    chromium.setHeadlessMode = true;
+    // Optional: If you'd like to disable webgl, true is the default.
+    chromium.setGraphicsMode = false;
 
     try {
 
         browser = await puppeteer.launch({
-            args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
+            args: chromium.args,
             defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(),
             headless: chromium.headless,
@@ -32,7 +35,7 @@ exports.handler = async (event, context) => {
             statusCode: 200,
             body: JSON.stringify({ screenshot: screenshot }),
             headers: {
-            'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
 
         };
