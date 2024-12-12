@@ -8,9 +8,16 @@ exports.handler = async (event, context) => {
 
         browser = await chromium.puppeteer.launch({
             executablePath: await chromium.executablePath,
-            args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
+            args: [
+                ...chromium.args,
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--single-process'
+            ],
             defaultViewport: chromium.defaultViewport,
-            headless: chromium.headless,
+            headless: true,
             ignoreHTTPSErrors: true,
         });
 
