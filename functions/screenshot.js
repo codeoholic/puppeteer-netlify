@@ -1,4 +1,4 @@
-const chromium = require("@sparticuz/chromium");
+const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require("puppeteer-core");
 
 exports.handler = async (event, context) => {
@@ -13,7 +13,7 @@ exports.handler = async (event, context) => {
         browser = await puppeteer.launch({
             args: chromium.args,
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
+            executablePath: await chromium.executablePath("/opt/chromium"),
             headless: chromium.headless,
             ignoreHTTPSErrors: true,
         });
