@@ -5,7 +5,7 @@ exports.handler = async (event, context) => {
   let browser = null;
 
   try {
-    browser = await puppeteer.launch({
+    browser = await chromium.puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath,
