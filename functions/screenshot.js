@@ -7,13 +7,11 @@ exports.handler = async (event, context) => {
     try {
 
         browser = await chromium.puppeteer.launch({
-
             executablePath: await chromium.executablePath,
-            args: chromium.args,
+            args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
             defaultViewport: chromium.defaultViewport,
             headless: chromium.headless,
             ignoreHTTPSErrors: true,
-
         });
 
         const page = await browser.newPage();
