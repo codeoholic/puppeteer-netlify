@@ -8,6 +8,10 @@ chromium.setGraphicsMode = false;
 
 exports.handler = async (event, context) => {
 
+    const params = new URLSearchParams(event.queryStringParameters);
+    // Accessing parameters
+    const url = params.get('url');
+
     let browser = null;
 
     try {
@@ -32,17 +36,12 @@ exports.handler = async (event, context) => {
 
         const page = await browser.newPage();
         // await page.setRequestInterception(true)
-        await page.goto('https://www.blupp.co', {
+        await page.goto(url, {
 
             waitUntil: ['networkidle0', 'load', 'domcontentloaded'],
             timeout: 30000 // 30 seconds
 
         });
-        // await page.waitForTimeout(2000);
-        // const screenshot = await page.screenshot({
-        //     encoding: 'base64',
-        //     fullPage: true
-        // });
 
         const pageTitle = await page.title();
         await browser.close();
