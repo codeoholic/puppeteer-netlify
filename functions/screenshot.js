@@ -1,19 +1,21 @@
 const chromium = require("@sparticuz/chromium-min");
 const puppeteer = require("puppeteer-core");
 
+// Add chromium configuration at the top
+chromium.setHeadlessMode = true;
+chromium.setGraphicsMode = false;
+chromium.setChromiumPath("/tmp/chromium");
+
 exports.handler = async (event, context) => {
 
     let browser = null;
-    chromium.setHeadlessMode = true;
-    // Optional: If you'd like to disable webgl, true is the default.
-    chromium.setGraphicsMode = false;
 
     try {
 
         browser = await puppeteer.launch({
-            args: chromium.args,
+            args: [...chromium.args, "--no-sandbox"],
             defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
+            executablePath: await chromium.executablePath("/tmp/chromium"),
             headless: chromium.headless,
             ignoreHTTPSErrors: true,
         });
