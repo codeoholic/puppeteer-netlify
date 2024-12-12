@@ -19,9 +19,12 @@ exports.handler = async (event, context) => {
         });
 
         const page = await browser.newPage();
+        await page.setRequestInterception(true)
         await page.goto('https://www.blupp.co', {
+
             waitUntil: ['networkidle0', 'load', 'domcontentloaded'],
             timeout: 30000 // 30 seconds
+
         });
         await page.waitForTimeout(2000);
         const screenshot = await page.screenshot({
