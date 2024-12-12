@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
             timeout: 30000 // 30 seconds
 
         });
-        await page.waitForTimeout(2000);
+        // await page.waitForTimeout(2000);
         // const screenshot = await page.screenshot({
         //     encoding: 'base64',
         //     fullPage: true
