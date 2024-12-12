@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     try {
 
         browser = await puppeteer.launch({
-            args: chromium.args,
+            args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
             defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(),
             headless: chromium.headless,
@@ -16,8 +16,15 @@ exports.handler = async (event, context) => {
         });
 
         const page = await browser.newPage();
-        await page.goto('https://www.blupp.co');
-        const screenshot = await page.screenshot({ encoding: 'base64' });
+        await page.goto('https://www.blupp.co', {
+            waitUntil: ['networkidle0', 'load', 'domcontentloaded'],
+            timeout: 30000 // 30 seconds
+        });
+        await page.waitForTimeout(2000);
+        const screenshot = await page.screenshot({
+            encoding: 'base64',
+            fullPage: true
+        });
 
         await browser.close();
         return {
