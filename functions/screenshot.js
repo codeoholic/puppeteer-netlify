@@ -27,16 +27,17 @@ exports.handler = async (event, context) => {
 
         });
         await page.waitForTimeout(2000);
-        const screenshot = await page.screenshot({
-            encoding: 'base64',
-            fullPage: true
-        });
+        // const screenshot = await page.screenshot({
+        //     encoding: 'base64',
+        //     fullPage: true
+        // });
 
+        const pageTitle = await page.title();
         await browser.close();
         return {
 
             statusCode: 200,
-            body: JSON.stringify({ screenshot: screenshot }),
+            body: JSON.stringify({ title: pageTitle }),
             headers: {
                 'Content-Type': 'application/json',
             },
