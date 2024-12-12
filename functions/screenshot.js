@@ -13,14 +13,25 @@ exports.handler = async (event, context) => {
     try {
 
         browser = await puppeteer.launch({
-            args: [...chromium.args, "--no-sandbox"],
+            args: [
+                ...chromium.args,
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-setuid-sandbox',
+                '--no-first-run',
+                '--no-sandbox',
+                '--no-zygote',
+                '--deterministic-fetch',
+                '--disable-features=IsolateOrigins',
+                '--disable-site-isolation-trials',
+            ],
             defaultViewport: chromium.defaultViewport,
             executablePath: await chromium.executablePath(),
             headless: chromium.headless,
         });
 
         const page = await browser.newPage();
-        await page.setRequestInterception(true)
+        // await page.setRequestInterception(true)
         await page.goto('https://www.blupp.co', {
 
             waitUntil: ['networkidle0', 'load', 'domcontentloaded'],
